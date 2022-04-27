@@ -52,12 +52,98 @@
     <div class="collapse" id="collapseMontecarlo">
         <div class="container-fluid">
             <hr>
-            <label style="display: block;" for="time-sim">Tiempo a simular:</label>
+            <label style="display: block;" for="time-sim">Cantidad de partidas (X)</label>
             <input id="time-sim" placeholder="Ej: 100" style="margin: 0.5em;" type="number" />
         
-            <label style="display: block;" for="n">N:</label>
+            <label style="display: block;" for="n">Cantidad de rondas de una partida (N)</label>
             <input id="n" placeholder="Cantidad de números" style="margin: 0.5em;" type="number" />
             
+            <hr>
+            <p><b> Distribucion de probabilidad de la primer tirada </b></p>
+
+            <label style="display: block;" for="prob7-1tirada">Probabilidad de tirar 7 pinos:</label>
+            <input id="prob7-1tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+
+            <label style="display: block;" for="prob8-1tirada">Probabilidad de tirar 8 pinos:</label>
+            <input id="prob8-1tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+
+            <label style="display: block;" for="prob9-1tirada">Probabilidad de tirar 9 pinos:</label>
+            <input id="prob9-1tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+
+            <label style="display: block;" for="prob10-1tirada">Probabilidad de tirar 10 pinos:</label>
+            <input id="prob10-1tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+
+            <hr>
+            <p><b> Distribucion de probabilidad de la segunda tirada </b></p>
+
+            <table>
+                <tr>
+                  <td><strong>Si en la primera tanda se tiraron 7...</strong></td>
+                  <td><strong>Si en la primera tanda se tiraron 8...</strong></td>
+                  <td><strong>Si en la primera tanda se tiraron 9...</strong></td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <label style="display: block; margin-right: 60px;" for="prob0-7tirados-2tirada">Probabilidad de tirar 0 pinos en la segunda tirada:</label>
+                    <input id="prob0-7tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+                  </td>
+                  <td>
+                    <label style="display: block; margin-right: 60px;" for="prob0-8tirados-2tirada">Probabilidad de tirar 0 pinos en la segunda tirada:</label>
+                    <input id="prob0-8tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+                  </td>
+                  <td>
+                    <label style="display: block; margin-right: 60px;" for="prob0-9tirados-2tirada">Probabilidad de tirar 0 pinos en la segunda tirada:</label>
+                    <input id="prob0-9tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <label style="display: block; margin-right: 60px;" for="prob1-7tirados-2tirada">Probabilidad de tirar 1 pinos en la segunda tirada:</label>
+                    <input id="prob1-7tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" /></td>
+                  <td>
+                    <label style="display: block; margin-right: 60px;" for="prob1-8tirados-2tirada">Probabilidad de tirar 1 pinos en la segunda tirada:</label>
+                    <input id="prob1-8tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+                  </td>
+                  <td>
+                    <label style="display: block; margin-right: 60px;" for="prob1-9tirados-2tirada">Probabilidad de tirar 1 pinos en la segunda tirada:</label>
+                    <input id="prob1-9tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <label style="display: block; margin-right: 60px;" for="prob2-7tirados-2tirada">Probabilidad de tirar 2 pinos en la segunda tirada:</label>
+                    <input id="prob2-7tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+                  </td>
+                  <td>
+                    <label style="display: block; margin-right: 60px;" for="prob2-8tirados-2tirada">Probabilidad de tirar 2 pinos en la segunda tirada:</label>
+                    <input id="prob2-8tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+                  </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label style="display: block; margin-right: 60px;" for="prob3-7tirados-2tirada">Probabilidad de tirar 3 pinos en la segunda tirada:</label>
+                        <input id="prob3-7tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" />
+                  </tr>
+
+            </table>
+            
+            <hr>
+            <p><b> Puntajes </b></p>
+
+            <label style="display: block;" for="puntaje-primertiro10">Puntaje por tirar 10 pinos en el primer tiro</label>
+            <input id="puntaje-primertiro10" placeholder="Puntaje" style="margin: 0.5em;" type="number" />
+
+            <label style="display: block;" for="puntaje-dostiros10">Puntaje por tirar 10 pinos con dos tiros</label>
+            <input id="puntaje-dostiros10" placeholder="Puntaje" style="margin: 0.5em;" type="number" />
+
+            <label style="display: block;" for="puntaje-a-alcanzar">Puntaje a obtener al cabo de N rondas</label>
+            <input id="puntaje-a-alcanzar" placeholder="Puntaje" style="margin: 0.5em;" type="number" />
+        
+        
             <hr>
             <p><b> Filas a mostrar </b></p>
 
