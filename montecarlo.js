@@ -214,20 +214,13 @@ const generacionMontecarlo = (time_sim, n) => {
     
 
     let randObj = {};
-    for (let i = 0; i < n; i++) {
+    for (let i = 1; i < n; i++) {
 
         //primer random
         random_1er_tirada = truncateDecimals(Math.random(), 4);
 
-        //nropartida
-        if (i % 10 === 0){
-            nropartida = "Fin Partida"
-        }
-        else{
-            nropartida = "-"
-        }
 
-        for (let j = 0; j < pinos_tirados_1er_tirada.length; j++){
+        for (let j = 1; j < pinos_tirados_1er_tirada.length; j++){
             if (random_1er_tirada >= lim_inferiores[j] && random_1er_tirada < lim_superiores[j]){
 
                 //pinos tirados tirada 1segun random
@@ -241,7 +234,7 @@ const generacionMontecarlo = (time_sim, n) => {
                     pinos_int_tirada2 = pinos_tirados_tirada2.replace("-", 0);
                     total_pinos_tirados = pinos_tirados_tirada1 + Number(pinos_int_tirada2);
                     puntaje_total = puntaje_primertiro10;
-                    puntaje_total_acum = puntaje_total_acum + puntaje_total
+                    
 
                 }
                 else{
@@ -249,18 +242,18 @@ const generacionMontecarlo = (time_sim, n) => {
                         const [lim_inferiores, lim_superiores] = armarIntervalosSegundaTirada_1erTirada9();
                         random_2da_tirada = truncateDecimals(Math.random(), 4);
 
-                        for (let k = 0; k < pinos_tirados_segtirada_1ertirada9.length; k++){
+                        for (let k = 1; k < pinos_tirados_segtirada_1ertirada9.length; k++){
                             if (random_2da_tirada > lim_inferiores[k] && random_2da_tirada < lim_superiores[k]){
                                 pinos_tirados_tirada2 = pinos_tirados_segtirada_1ertirada9[k];
                                 total_pinos_tirados = pinos_tirados_tirada1 + pinos_tirados_tirada2;
                                 
                                 if (total_pinos_tirados === 10){
                                     puntaje_total = puntaje_dostiros10;
-                                    puntaje_total_acum = puntaje_total_acum + puntaje_total
+                                    
                                 }
                                 else{
                                     puntaje_total = total_pinos_tirados;
-                                    puntaje_total_acum = puntaje_total_acum + puntaje_total
+                                    
                                 }
                             }
                         }
@@ -278,11 +271,11 @@ const generacionMontecarlo = (time_sim, n) => {
 
                                     if (total_pinos_tirados === 10){
                                         puntaje_total = puntaje_dostiros10;
-                                        puntaje_total_acum = puntaje_total_acum + puntaje_total
+                                       
                                     }
                                     else{
                                         puntaje_total = total_pinos_tirados;
-                                        puntaje_total_acum = puntaje_total_acum + puntaje_total
+                                       
                                     }
                                 }
                             }
@@ -300,11 +293,11 @@ const generacionMontecarlo = (time_sim, n) => {
 
                                         if (total_pinos_tirados === 10){
                                             puntaje_total = puntaje_dostiros10;
-                                            puntaje_total_acum = puntaje_total_acum + puntaje_total
+                                      
                                         }
                                         else{
                                             puntaje_total = total_pinos_tirados;
-                                            puntaje_total_acum = puntaje_total_acum + puntaje_total
+                                       
                                         }
                                     }
                                 }
@@ -314,7 +307,21 @@ const generacionMontecarlo = (time_sim, n) => {
                 }
             }
         }
+
+        puntaje_total_acum = puntaje_total_acum + puntaje_total
         
+        //nropartida
+        if (i % 10 === 0){
+            nropartida = "Fin Partida"
+            puntaje_total_acum = puntaje_total //esto esta mal, es en la iteracion i +1 donde se resetea
+        }
+        else{
+            nropartida = "-"
+        }
+
+        //if (i - 1 === "Fin Partida"){
+        //    puntaje_total_acum = puntaje_total
+        //}
         //console.log(random_1er_tirada, pinos_tirados_tirada1)
 
         randObj = {
