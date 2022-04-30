@@ -1,324 +1,345 @@
 const btnSimular = document.getElementById("btnSimular");
 const btnSimDelete = document.getElementById("btnSimDel");
 
-let gridRandVarOptions = {};
-let pinos_tirados_1er_tirada = [7, 8, 9, 10];
-let pinos_tirados_segtirada_1ertirada7 = [0, 1, 2, 3]
-let pinos_tirados_segtirada_1ertirada8 = [0, 1, 2]
-let pinos_tirados_segtirada_1ertirada9 = [0, 1]
+// variables globales para determinar cantidad de pinos a tirar
+const PINOS_TIRADA1 = [7, 8, 9, 10];
+const PINOS_TIRADA2_TIRADA1_7 = [0, 1, 2, 3];
+const PINOS_TIRADA2_TIRADA1_8 = [0, 1, 2];
+const PINOS_TIRADA2_TIRADA1_9 = [0, 1];
 
+/**
+ * Funcion de soporte para truncar un numero a una cantidad de decimales, ambos pasados como parametros
+ * @param {number} number numero a truncar
+ * @param {number} digits cantidad de decimales a truncar
+ * @returns
+ */
 const truncateDecimals = (number, digits) => {
     const multiplier = Math.pow(10, digits);
     return Math.trunc(number * multiplier) / multiplier;
 };
 
-const tomarProbabilidadesPrimerTirada = () => {
-    let probPrimerTirada = [];
-    let probAcumPrimerTirada = [];
-    let pinosTiradosPrimerTirada = [7, 8, 9, 10];
-    let prob7_primer_tirada = parseFloat(document.getElementById("prob7-1tirada").value);
-    let prob8_primer_tirada = parseFloat(document.getElementById("prob8-1tirada").value);
-    let prob9_primer_tirada = parseFloat(document.getElementById("prob9-1tirada").value);
-    let prob10_primer_tirada = parseFloat(document.getElementById("prob10-1tirada").value);
+/**
+ * Funcion que toma los valores de los inputs de las probabilidades para la tirada 1
+ * @returns un arreglo con las probabilidades acumuladas para la tirada 1
+ */
+const tomarProbabilidadesTirada1 = () => {
+    const prob_tirada1 = [];
+    const prob_acum_tirada1 = new Array(4);
 
-    probPrimerTirada.push(prob7_primer_tirada, prob8_primer_tirada, prob9_primer_tirada, prob10_primer_tirada);
-    probAcumPrimerTirada.push(prob7_primer_tirada, prob7_primer_tirada + prob8_primer_tirada, prob7_primer_tirada + prob8_primer_tirada + prob9_primer_tirada, prob7_primer_tirada + prob8_primer_tirada + prob9_primer_tirada + prob10_primer_tirada)
-    
-    return [pinosTiradosPrimerTirada, probAcumPrimerTirada];
+    const prob7_tirada1 = parseFloat(
+        document.getElementById("prob7-1tirada").value
+    );
+    const prob8_tirada1 = parseFloat(
+        document.getElementById("prob8-1tirada").value
+    );
+    const prob9_tirada1 = parseFloat(
+        document.getElementById("prob9-1tirada").value
+    );
+    const prob10_tirada1 = parseFloat(
+        document.getElementById("prob10-1tirada").value
+    );
+
+    prob_tirada1.push(
+        prob7_tirada1,
+        prob8_tirada1,
+        prob9_tirada1,
+        prob10_tirada1
+    );
+
+    let acu = 0;
+    for (let i = 0; i < prob_acum_tirada1.length; i++) {
+        acu += prob_tirada1[i];
+        prob_acum_tirada1[i] = acu;
+    }
+
+    return prob_acum_tirada1;
 };
 
-const tomarProbabilidadesSegundaTirada = () => {
-    let probabilidades_segunda_tirada_1ertirada7 = [];
-    let probabilidades_segunda_tirada_1ertirada8 = [];
-    let probabilidades_segunda_tirada_1ertirada9 = [];
+/**
+ * Funcion que toma los valores de los inputs de las probabilidades para la tirada 2
+ * @returns un arreglo con las probabilidades acumuladas para la tirada 2
+ */
+const tomarProbabilidadesTirada2 = () => {
+    const prob_tirada2_tirada1_7 = [];
+    const prob_tirada2_tirada1_8 = [];
+    const prob_tirada2_tirada1_9 = [];
 
-    let prob_acum_segunda_tirada_1ertirada7 = [];
-    let prob_acum_segunda_tirada_1ertirada8 = [];
-    let prob_acum_segunda_tirada_1ertirada9 = [];
-
-    let pinos_tirados_segtirada_1ertirada7 = [0, 1, 2, 3]
-    let pinos_tirados_segtirada_1ertirada8 = [0, 1, 2]
-    let pinos_tirados_segtirada_1ertirada9 = [0, 1]
+    const prob_acum_tirada2_tirada1_7 = new Array(4);
+    const prob_acum_tirada2_tirada1_8 = new Array(3);
+    const prob_acum_tirada2_tirada1_9 = new Array(2);
 
     //probabilidades de que tire x pinos en la segunda tirada si en la primera se tiraron 7 pinos
-    let prob0_seg_tirada_1ertirada7 = parseFloat(document.getElementById("prob0-7tirados-2tirada").value);
-    let prob1_seg_tirada_1ertirada7 = parseFloat(document.getElementById("prob1-7tirados-2tirada").value);
-    let prob2_seg_tirada_1ertirada7 = parseFloat(document.getElementById("prob2-7tirados-2tirada").value);
-    let prob3_seg_tirada_1ertirada7 = parseFloat(document.getElementById("prob3-7tirados-2tirada").value);
+    const prob0_tirada2_tirada1_7 = parseFloat(
+        document.getElementById("prob0-7tirados-2tirada").value
+    );
+    const prob1_tirada2_tirada1_7 = parseFloat(
+        document.getElementById("prob1-7tirados-2tirada").value
+    );
+    const prob2_tirada2_tirada1_7 = parseFloat(
+        document.getElementById("prob2-7tirados-2tirada").value
+    );
+    const prob3_tirada2_tirada1_7 = parseFloat(
+        document.getElementById("prob3-7tirados-2tirada").value
+    );
 
     //probabilidades de que tire x pinos en la segunda tirada si en la primera se tiraron 8 pinos
-    let prob0_seg_tirada_1ertirada8 = parseFloat(document.getElementById("prob0-8tirados-2tirada").value);
-    let prob1_seg_tirada_1ertirada8 = parseFloat(document.getElementById("prob1-8tirados-2tirada").value);
-    let prob2_seg_tirada_1ertirada8 = parseFloat(document.getElementById("prob2-8tirados-2tirada").value);
+    const prob0_tirada2_tirada1_8 = parseFloat(
+        document.getElementById("prob0-8tirados-2tirada").value
+    );
+    const prob1_tirada2_tirada1_8 = parseFloat(
+        document.getElementById("prob1-8tirados-2tirada").value
+    );
+    const prob2_tirada2_tirada1_8 = parseFloat(
+        document.getElementById("prob2-8tirados-2tirada").value
+    );
 
     //probabilidades de que tire x pinos en la segunda tirada si en la primera se tiraron 9 pinos
-    let prob0_seg_tirada_1ertirada9 = parseFloat(document.getElementById("prob0-9tirados-2tirada").value);
-    let prob1_seg_tirada_1ertirada9 = parseFloat(document.getElementById("prob1-9tirados-2tirada").value);
+    const prob0_tirada2_tirada1_9 = parseFloat(
+        document.getElementById("prob0-9tirados-2tirada").value
+    );
+    const prob1_tirada2_tirada1_9 = parseFloat(
+        document.getElementById("prob1-9tirados-2tirada").value
+    );
 
-    probabilidades_segunda_tirada_1ertirada7.push(prob0_seg_tirada_1ertirada7, prob1_seg_tirada_1ertirada7, prob2_seg_tirada_1ertirada7, prob3_seg_tirada_1ertirada7)
-    probabilidades_segunda_tirada_1ertirada8.push(prob0_seg_tirada_1ertirada8, prob1_seg_tirada_1ertirada8, prob2_seg_tirada_1ertirada8)
-    probabilidades_segunda_tirada_1ertirada9.push(prob0_seg_tirada_1ertirada9, prob1_seg_tirada_1ertirada9)
+    prob_tirada2_tirada1_7.push(
+        prob0_tirada2_tirada1_7,
+        prob1_tirada2_tirada1_7,
+        prob2_tirada2_tirada1_7,
+        prob3_tirada2_tirada1_7
+    );
 
-    prob_acum_segunda_tirada_1ertirada7.push(prob0_seg_tirada_1ertirada7, prob0_seg_tirada_1ertirada7 + prob1_seg_tirada_1ertirada7, prob0_seg_tirada_1ertirada7 + prob1_seg_tirada_1ertirada7 + prob2_seg_tirada_1ertirada7, prob0_seg_tirada_1ertirada7 + prob1_seg_tirada_1ertirada7 + prob2_seg_tirada_1ertirada7 + prob3_seg_tirada_1ertirada7)
-    prob_acum_segunda_tirada_1ertirada8.push(prob0_seg_tirada_1ertirada8, prob0_seg_tirada_1ertirada8 + prob1_seg_tirada_1ertirada8, prob0_seg_tirada_1ertirada8 + prob1_seg_tirada_1ertirada8 + prob2_seg_tirada_1ertirada8)
-    prob_acum_segunda_tirada_1ertirada9.push(prob0_seg_tirada_1ertirada9, prob0_seg_tirada_1ertirada9 + prob1_seg_tirada_1ertirada9)
-    
-    return [pinos_tirados_segtirada_1ertirada7, pinos_tirados_segtirada_1ertirada8, pinos_tirados_segtirada_1ertirada9, prob_acum_segunda_tirada_1ertirada7, prob_acum_segunda_tirada_1ertirada8, prob_acum_segunda_tirada_1ertirada9];
+    prob_tirada2_tirada1_8.push(
+        prob0_tirada2_tirada1_8,
+        prob1_tirada2_tirada1_8,
+        prob2_tirada2_tirada1_8
+    );
+
+    prob_tirada2_tirada1_9.push(
+        prob0_tirada2_tirada1_9,
+        prob1_tirada2_tirada1_9
+    );
+
+    let acu = 0;
+    for (let i = 0; i < prob_acum_tirada2_tirada1_7.length; i++) {
+        acu += prob_tirada2_tirada1_7[i];
+        prob_acum_tirada2_tirada1_7[i] = acu;
+    }
+
+    acu = 0;
+    for (let i = 0; i < prob_acum_tirada2_tirada1_8.length; i++) {
+        acu += prob_tirada2_tirada1_8[i];
+        prob_acum_tirada2_tirada1_8[i] = acu;
+    }
+
+    acu = 0;
+    for (let i = 0; i < prob_acum_tirada2_tirada1_9.length; i++) {
+        acu += prob_tirada2_tirada1_9[i];
+        prob_acum_tirada2_tirada1_9[i] = acu;
+    }
+
+    return [
+        prob_acum_tirada2_tirada1_7,
+        prob_acum_tirada2_tirada1_8,
+        prob_acum_tirada2_tirada1_9,
+    ];
 };
 
-
+/**
+ * Funcion que toma los valores de los inputs de los puntajes
+ * @returns un arreglo con los puntajes
+ */
 const tomarPuntajes = () => {
-    let puntaje_primertiro10 = parseFloat(document.getElementById("puntaje-primertiro10").value);
-    let puntaje_dostiros10 = parseFloat(document.getElementById("puntaje-dostiros10").value);
-    let puntaje_a_alcanzar = parseFloat(document.getElementById("puntaje-a-alcanzar").value);
+    const puntaje_1tiro_10 = parseFloat(
+        document.getElementById("puntaje-primertiro10").value
+    );
+    const puntaje_2tiros_10 = parseFloat(
+        document.getElementById("puntaje-dostiros10").value
+    );
+    const puntaje_alcanzar = parseFloat(
+        document.getElementById("puntaje-a-alcanzar").value
+    );
 
-    return [puntaje_primertiro10, puntaje_dostiros10, puntaje_a_alcanzar]
-}
+    return [puntaje_1tiro_10, puntaje_2tiros_10, puntaje_alcanzar];
+};
 
-const armarIntervalos = () => {
-    const [pinosTiradosPrimerTirada, probAcumPrimerTirada] = tomarProbabilidadesPrimerTirada()
-
-    let lim_inf = 0.0000;
-    let lim_sup = 0.0000;
+/**
+ * Funcion que arma los intervalos que se utilizaran para determinar la cantidad de pinos tirados
+ * @param {boolean} esTirada1 true si se esta calculando para la tirada 1, false si se esta calculando para la tirada 2
+ * @param {number} cantPinosTirada1 en caso que se este calculando para la tirada 2, la cantidad de pinos que se tiraron en la tirada 1. Por defecto es null
+ * @returns un arreglo que contiene dos arreglos, uno que contiene los limites inferiores y otro que contiene los limites superiores
+ */
+const armarIntervalos = (esTirada1, cantPinosTirada1 = null) => {
+    let lim_inf = 0;
+    let lim_sup = 0;
     let lim_superiores = [];
     let lim_inferiores = [];
-    for (let i = 0; i < pinosTiradosPrimerTirada.length; i++) {
-        if (i == 0) {
-            lim_inf = lim_inf;
-            lim_sup = truncateDecimals(Number(probAcumPrimerTirada[i] - 0.0001), 4);
-            lim_inferiores.push(lim_inf);
-            lim_superiores.push(lim_sup);
-        } else {
-            lim_inf = Number(lim_sup) + 0.0001;
-            lim_sup = truncateDecimals(Number(probAcumPrimerTirada[i] - 0.0001), 4);
-            lim_inferiores.push(lim_inf);
-            lim_superiores.push(lim_sup);
+    let prob_acum = 0;
+    let cant_pinos = 0;
+
+    if (esTirada1) {
+        prob_acum = tomarProbabilidadesTirada1();
+        cant_pinos = PINOS_TIRADA1;
+    } else {
+        switch (cantPinosTirada1) {
+            case 7:
+                [prob_acum] = tomarProbabilidadesTirada2();
+                cant_pinos = PINOS_TIRADA2_TIRADA1_7;
+                break;
+            case 8:
+                [, prob_acum] = tomarProbabilidadesTirada2();
+                cant_pinos = PINOS_TIRADA2_TIRADA1_8;
+                break;
+            case 9:
+                [, , prob_acum] = tomarProbabilidadesTirada2();
+                cant_pinos = PINOS_TIRADA2_TIRADA1_9;
+                break;
+            case 10:
+                lim_inferiores = [0.0];
+                lim_superiores = [0.9999];
+                break;
+        }
+    }
+
+    if (esTirada1 || cantPinosTirada1 != 10) {
+        for (let i = 0; i < cant_pinos.length; i++) {
+            if (i == 0) {
+                lim_inf = lim_inf;
+                lim_sup = truncateDecimals(Number(prob_acum[i] - 0.0001), 4);
+                lim_inferiores.push(lim_inf);
+                lim_superiores.push(lim_sup);
+            } else {
+                lim_inf = Number(lim_sup) + 0.0001;
+                lim_sup = truncateDecimals(Number(prob_acum[i] - 0.0001), 4);
+                lim_inferiores.push(lim_inf);
+                lim_superiores.push(lim_sup);
+            }
         }
     }
 
     return [lim_inferiores, lim_superiores];
 };
 
-
-const armarIntervalosSegundaTirada_1erTirada10 = () => {
-    const [pinos_tirados_segtirada_1ertirada7, pinos_tirados_segtirada_1ertirada8, pinos_tirados_segtirada_1ertirada9, prob_acum_segunda_tirada_1ertirada7, prob_acum_segunda_tirada_1ertirada8, prob_acum_segunda_tirada_1ertirada9] = tomarProbabilidadesSegundaTirada();
-
-    let lim_inf = 0.0000;
-    let lim_sup = 0.0000;
-    let lim_superiores = [];
-    let lim_inferiores = [];
-
-    lim_inf = 0.0000
-    lim_sup = 0.9999
-    lim_inferiores.push(lim_inf)
-    lim_superiores.push(lim_sup)
-
-    return [lim_inferiores, lim_superiores]
-};
-
-
-const armarIntervalosSegundaTirada_1erTirada9 = () => {
-    const [pinos_tirados_segtirada_1ertirada7, pinos_tirados_segtirada_1ertirada8, pinos_tirados_segtirada_1ertirada9, prob_acum_segunda_tirada_1ertirada7, prob_acum_segunda_tirada_1ertirada8, prob_acum_segunda_tirada_1ertirada9] = tomarProbabilidadesSegundaTirada();
-
-    let lim_inf = 0.0000;
-    let lim_sup = 0.0000;
-    let lim_superiores = [];
-    let lim_inferiores = [];
-
-    for (let i = 0; i < pinos_tirados_segtirada_1ertirada9.length; i++) {
-        if (i == 0) {
-            lim_inf = lim_inf;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada9[i] - 0.0001), 4);
-            lim_inferiores.push(lim_inf);
-            lim_superiores.push(lim_sup);
-        } else {
-            lim_inf = Number(lim_sup) + 0.0001;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada9[i] - 0.0001), 4);
-            lim_inferiores.push(lim_inf);
-            lim_superiores.push(lim_sup);
+/**
+ * Funcion que determina el intervalo al que pertenece un numero pasado por parametro y devuelve la cantidad de pinos tirados
+ * @param {number} rnd numero a comprobar en que intervalo se encuentra
+ * @param {Array} tirada arreglo con la cantidad de pinos que se pueden tirar
+ * @param {Array} lim_inferiores arreglo con los limites inferiores
+ * @param {Array} lim_superiores arreglo con los limites superiores
+ * @returns {number} cantidad de pinos tirados
+ */
+const determinarIntervalo = (rnd, tirada, lim_inferiores, lim_superiores) => {
+    for (let k = 0; k < tirada.length; k++) {
+        if (rnd > lim_inferiores[k] && rnd < lim_superiores[k]) {
+            return tirada[k];
         }
     }
-
-    return [lim_inferiores, lim_superiores]
 };
 
-
-const armarIntervalosSegundaTirada_1erTirada8 = () => {
-    const [pinos_tirados_segtirada_1ertirada7, pinos_tirados_segtirada_1ertirada8, pinos_tirados_segtirada_1ertirada9, prob_acum_segunda_tirada_1ertirada7, prob_acum_segunda_tirada_1ertirada8, prob_acum_segunda_tirada_1ertirada9] = tomarProbabilidadesSegundaTirada();
-
-    let lim_inf = 0.00;
-    let lim_sup = 0.00;
-    let lim_superiores = [];
-    let lim_inferiores = [];
-
-    for (let i = 0; i < pinos_tirados_segtirada_1ertirada8.length; i++) {
-        if (i == 0) {
-            lim_inf = lim_inf;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada8[i] - 0.0001), 4);
-            lim_inferiores.push(lim_inf);
-            lim_superiores.push(lim_sup);
-        } else {
-            lim_inf = Number(lim_sup) + 0.0001;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada8[i] - 0.0001), 4);
-            lim_inferiores.push(lim_inf);
-            lim_superiores.push(lim_sup);
-        }
+/**
+ * Funcion que determina los pinos que se pueden tirar en la tirada 2, en base a los pinos tirados en la tirada 1
+ * @param {number} pinos_tirados_tirada1 cantidad de pinos tirados en la tirada 1
+ * @returns un arreglo con los pinos que se pueden tirar en la tirada 2
+ */
+const determinarPinosTirada2 = (pinos_tirados_tirada1) => {
+    switch (pinos_tirados_tirada1) {
+        case 9:
+            return PINOS_TIRADA2_TIRADA1_9;
+        case 8:
+            return PINOS_TIRADA2_TIRADA1_8;
+        case 7:
+            return PINOS_TIRADA2_TIRADA1_7;
     }
-
-    return [lim_inferiores, lim_superiores]
 };
 
-
-const armarIntervalosSegundaTirada_1erTirada7 = () => {
-    const [pinos_tirados_segtirada_1ertirada7, pinos_tirados_segtirada_1ertirada8, pinos_tirados_segtirada_1ertirada9, prob_acum_segunda_tirada_1ertirada7, prob_acum_segunda_tirada_1ertirada8, prob_acum_segunda_tirada_1ertirada9] = tomarProbabilidadesSegundaTirada();
-
-    let lim_inf = 0.00;
-    let lim_sup = 0.00;
-    let lim_superiores = [];
-    let lim_inferiores = [];
-
-    for (let i = 0; i < pinos_tirados_segtirada_1ertirada7.length; i++) {
-        if (i == 0) {
-            lim_inf = lim_inf;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada7[i] - 0.0001), 4);
-            lim_inferiores.push(lim_inf);
-            lim_superiores.push(lim_sup);
-        } else {
-            lim_inf = Number(lim_sup) + 0.0001;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada7[i] - 0.0001), 4);
-            lim_inferiores.push(lim_inf);
-            lim_superiores.push(lim_sup);
-        }
-    }
-
-    return [lim_inferiores, lim_superiores]
-};
-
-
-const generacionMontecarlo = (time_sim, n) => {
+/**
+ * Funcion que realiza el metodo montecarlo
+ * @param {number} x cantidad de filas (rondas) que tendra cada partida
+ * @param {number} n cantidad total de filas (rondas) que tendra la tabla
+ * @returns un arreglo de objetos que poseen los datos para generar la tabla
+ */
+const generacionMontecarlo = (x, n) => {
     let vectoresEstado = [];
 
-    let random_1er_tirada = 0;
-    let random_2da_tirada = 0;
+    let rnd_tirada1 = 0;
+    let rnd_tirada2 = 0;
     let pinos_tirados_tirada1 = 0;
     let pinos_tirados_tirada2 = 0;
-    let total_pinos_tirados = 0;
+    let total_pinos = 0;
     let pinos_int_tirada2 = 0;
     let nropartida = 0;
     let puntaje_total = 0;
     let puntaje_total_acum = 0;
-
-    const [lim_inferiores, lim_superiores] = armarIntervalos();
-    const [puntaje_primertiro10, puntaje_dostiros10, puntaje_a_alcanzar] = tomarPuntajes()
-    
-
     let randObj = {};
+
+    // obtener los puntajes de los inputs
+    const [puntaje_1tiro_10, puntaje_2tiros_10, puntaje_alcanzar] =
+        tomarPuntajes();
+
+    // armar los intervalos para la tirada 1
+    const [lim_inferiores, lim_superiores] = armarIntervalos(true, null);
+
+    // ciclo para generar {n} filas en la tabla
     for (let i = 0; i < n; i++) {
+        // generar rnd para la tirada 1
+        rnd_tirada1 = truncateDecimals(Math.random(), 4);
 
-        //primer random
-        random_1er_tirada = truncateDecimals(Math.random(), 4);
+        // determinar a que intervalo pertenece el rnd de la tirada 1 (para saber cuantos pinos se tiraron)
+        pinos_tirados_tirada1 = determinarIntervalo(
+            rnd_tirada1,
+            PINOS_TIRADA1,
+            lim_inferiores,
+            lim_superiores
+        );
 
+        if (pinos_tirados_tirada1 === 10) {
+            rnd_tirada2 = "-";
+            pinos_tirados_tirada2 = "-";
+            pinos_int_tirada2 = pinos_tirados_tirada2.replace("-", 0);
+            total_pinos = pinos_tirados_tirada1 + Number(pinos_int_tirada2);
+            puntaje_total = puntaje_1tiro_10;
+        } else {
+            // armar los intervalos para la tirada 2, en base a los pinos tirados en la tirada 1
+            const [lim_inferiores, lim_superiores] = armarIntervalos(
+                false,
+                pinos_tirados_tirada1
+            );
 
-        for (let j = 0; j < pinos_tirados_1er_tirada.length; j++){
-            if (random_1er_tirada >= lim_inferiores[j] && random_1er_tirada < lim_superiores[j]){
+            // generar rnd para la tirada 2
+            rnd_tirada2 = truncateDecimals(Math.random(), 4);
 
-                //pinos tirados tirada 1segun random
-                pinos_tirados_tirada1 = pinos_tirados_1er_tirada[j];
+            // determinar los pinos que se pueden tirar en la tirada 2, en base a los pinos tirados en la tirada 1
+            let pinos_tirada2 = determinarPinosTirada2(pinos_tirados_tirada1);
 
-                if (pinos_tirados_tirada1 === 10){
-                    //segundo random y pinos tirados segun random
-                    const [lim_inferiores, lim_superiores] = armarIntervalosSegundaTirada_1erTirada10();
-                    random_2da_tirada = "-";
-                    pinos_tirados_tirada2 = "-"
-                    pinos_int_tirada2 = pinos_tirados_tirada2.replace("-", 0);
-                    total_pinos_tirados = pinos_tirados_tirada1 + Number(pinos_int_tirada2);
-                    puntaje_total = puntaje_primertiro10;
-                    
+            // determinar a que intervalo pertenece el rnd de la tirada 2 (para saber cuantos pinos se tiraron)
+            pinos_tirados_tirada2 = determinarIntervalo(
+                rnd_tirada2,
+                pinos_tirada2,
+                lim_inferiores,
+                lim_superiores
+            );
 
-                }
-                else{
-                    if (pinos_tirados_tirada1 === 9){
-                        const [lim_inferiores, lim_superiores] = armarIntervalosSegundaTirada_1erTirada9();
-                        random_2da_tirada = truncateDecimals(Math.random(), 4);
+            // cantidad de pinos tirados en total (en las dos tiradas)
+            total_pinos = pinos_tirados_tirada1 + pinos_tirados_tirada2;
 
-                        for (let k = 0; k < pinos_tirados_segtirada_1ertirada9.length; k++){
-                            if (random_2da_tirada > lim_inferiores[k] && random_2da_tirada < lim_superiores[k]){
-                                pinos_tirados_tirada2 = pinos_tirados_segtirada_1ertirada9[k];
-                                total_pinos_tirados = pinos_tirados_tirada1 + pinos_tirados_tirada2;
-                                
-                                if (total_pinos_tirados === 10){
-                                    puntaje_total = puntaje_dostiros10;
-                                    
-                                }
-                                else{
-                                    puntaje_total = total_pinos_tirados;
-                                    
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        if (pinos_tirados_tirada1 === 8){
-                            const [lim_inferiores, lim_superiores] = armarIntervalosSegundaTirada_1erTirada8();
-                            random_2da_tirada = truncateDecimals(Math.random(), 4);
-
-                            for (let k = 0; k < pinos_tirados_segtirada_1ertirada8.length; k++){
-                                if (random_2da_tirada > lim_inferiores[k] && random_2da_tirada < lim_superiores[k]){
-                                    pinos_tirados_tirada2 = pinos_tirados_segtirada_1ertirada8[k];
-                                    total_pinos_tirados = pinos_tirados_tirada1 + pinos_tirados_tirada2;
-
-
-                                    if (total_pinos_tirados === 10){
-                                        puntaje_total = puntaje_dostiros10;
-                                       
-                                    }
-                                    else{
-                                        puntaje_total = total_pinos_tirados;
-                                       
-                                    }
-                                }
-                            }
-
-                        }
-                        else{
-                            if (pinos_tirados_tirada1 === 7){
-                                const [lim_inferiores, lim_superiores] = armarIntervalosSegundaTirada_1erTirada7();
-                                random_2da_tirada = truncateDecimals(Math.random(), 4);
-
-                                for (let k = 0; k < pinos_tirados_segtirada_1ertirada7.length; k++){
-                                    if (random_2da_tirada > lim_inferiores[k] && random_2da_tirada < lim_superiores[k]){
-                                        pinos_tirados_tirada2 = pinos_tirados_segtirada_1ertirada7[k];
-                                        total_pinos_tirados = pinos_tirados_tirada1 + pinos_tirados_tirada2;
-
-                                        if (total_pinos_tirados === 10){
-                                            puntaje_total = puntaje_dostiros10;
-                                      
-                                        }
-                                        else{
-                                            puntaje_total = total_pinos_tirados;
-                                       
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            // calculo del puntaje obtenido
+            if (total_pinos === 10) {
+                puntaje_total = puntaje_2tiros_10;
+            } else {
+                puntaje_total = total_pinos;
             }
         }
 
-        puntaje_total_acum = puntaje_total_acum + puntaje_total
-        
+        puntaje_total_acum += puntaje_total;
+
         //nropartida
-        if (((i + 1) % 10) === 0){ //cambiar 10 por el valor del input
-            nropartida = "Fin Partida"
+        if ((i + 1) % 10 === 0) {
+            //cambiar 10 por el valor del input
+            nropartida = "Fin Partida";
             //puntaje_total_acum = puntaje_total //esto esta mal, es en la iteracion i +1 donde se resetea
-        }
-        //else if(((i + 1) % (10 + 1)) === 0) {
-        //    puntaje_total_acum = puntaje_total
-        //}
-        else{
-            nropartida = "-"
+        } else if ((i + 1) % (10 + 1) === 0) {
+            puntaje_total_acum = puntaje_total;
+        } else {
+            nropartida = "-";
         }
 
         //if (i - 1 === "Fin Partida"){
@@ -329,23 +350,24 @@ const generacionMontecarlo = (time_sim, n) => {
         randObj = {
             Ronda: i + 1,
             Partida: nropartida,
-            Random1erTirada: random_1er_tirada,
+            Random1erTirada: rnd_tirada1,
             PinosTirados1erTirada: pinos_tirados_tirada1,
-            Random2daTirada: random_2da_tirada,
+            Random2daTirada: rnd_tirada2,
             PinosTirados2daTirada: pinos_tirados_tirada2,
-            TotalPinosTirados: total_pinos_tirados,
+            TotalPinosTirados: total_pinos,
             PuntosTotal: puntaje_total,
             PuntosTotalAC: puntaje_total_acum,
-            
         };
-    
+
         vectoresEstado.push(randObj);
-        
-            
     }
     return vectoresEstado;
 };
 
+/**
+ * Funcion principal que se encarga de llamar a las demas funciones y mostrar los resultados en la tabla
+ * @returns {void}
+ */
 const simularMontecarlo = () => {
     let vectoresEstado = [];
 
@@ -355,11 +377,9 @@ const simularMontecarlo = () => {
     let time_sim = parseFloat(document.getElementById("time-sim").value);
     let n = parseInt(document.getElementById("n").value);
 
-    if (
-        typeof time_sim === "undefined" ||
-        typeof n === "undefined"
-    )
+    if (typeof time_sim === "undefined" || typeof n === "undefined")
         return alert("Por favor, ingrese todos los datos.");
+
     if (isNaN(time_sim) || isNaN(n))
         return alert("Por favor, ingrese números.");
 
@@ -367,26 +387,39 @@ const simularMontecarlo = () => {
 
     try {
         vectoresEstado = generacionMontecarlo(time_sim, n);
-        //rndUnif = [...vectoresEstado];
-
     } catch (error) {
         alert("Oops! Ha ocurrido un error");
-        console.log(error)
+        console.log(error);
     }
 
-    let columnDefs = [{ field: "Ronda" }, { field: "Partida" }, { field: "Random1erTirada" }, { field: "PinosTirados1erTirada" }, 
-                    { field: "Random2daTirada" }, { field: "PinosTirados2daTirada" }
-                    , { field: "TotalPinosTirados" }, { field: "PuntosTotal" }, { field: "PuntosTotalAC" }];
+    let columnDefs = [
+        { field: "Ronda" },
+        { field: "Partida" },
+        { field: "Random1erTirada", headerName: "RND (T1)" },
+        { field: "PinosTirados1erTirada", headerName: "Pinos (T1)" },
+        { field: "Random2daTirada", headerName: "RND (T2)" },
+        { field: "PinosTirados2daTirada", headerName: "Pinos (T1)" },
+        { field: "TotalPinosTirados", headerName: "Total pinos" },
+        { field: "PuntosTotal", headerName: "Puntos" },
+        { field: "PuntosTotalAC", headerName: "Total puntos" },
+    ];
 
-    gridRandVarOptions = {
+    let gridRandVarOptions = {
         columnDefs,
         rowData: [...vectoresEstado],
     };
 
     new agGrid.Grid(eGridDiv, gridRandVarOptions);
+
+    // setea el tamaño de las columnas para que ocupen todo el ancho de la tabla
+    gridRandVarOptions.api.sizeColumnsToFit();
+
     btnExportToExcelRandVar.removeAttribute("hidden");
 };
 
+/**
+ * Funcion de soporte que se encarga de borrar la tabla
+ */
 const borrarTablaMontecarlo = () => {
     //btnExportToExcelRandVar.setAttribute("hidden", "hidden");
     //btnExportToExcelFrec.setAttribute("hidden", "hidden");
@@ -399,6 +432,6 @@ const borrarTablaMontecarlo = () => {
     }
 };
 
-
+// Agregar los eventos a los botones
 btnSimDelete.addEventListener("click", borrarTablaMontecarlo);
 btnSimular.addEventListener("click", simularMontecarlo);
