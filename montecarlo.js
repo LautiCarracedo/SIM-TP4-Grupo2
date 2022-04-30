@@ -354,17 +354,56 @@ const simularMontecarlo = () => {
     const eGridDiv = document.querySelector("#gridVariable");
     let time_sim = parseFloat(document.getElementById("time-sim").value);
     let n = parseInt(document.getElementById("n").value);
+    let prob7_primer_tirada = parseFloat(document.getElementById("prob7-1tirada").value);
+    let prob8_primer_tirada = parseFloat(document.getElementById("prob8-1tirada").value);
+    let prob9_primer_tirada = parseFloat(document.getElementById("prob9-1tirada").value);
+    let prob10_primer_tirada = parseFloat(document.getElementById("prob10-1tirada").value);
+
+    //probabilidades de que tire x pinos en la segunda tirada si en la primera se tiraron 7 pinos
+    let prob0_seg_tirada_1ertirada7 = parseFloat(document.getElementById("prob0-7tirados-2tirada").value);
+    let prob1_seg_tirada_1ertirada7 = parseFloat(document.getElementById("prob1-7tirados-2tirada").value);
+    let prob2_seg_tirada_1ertirada7 = parseFloat(document.getElementById("prob2-7tirados-2tirada").value);
+    let prob3_seg_tirada_1ertirada7 = parseFloat(document.getElementById("prob3-7tirados-2tirada").value);
+
+    //probabilidades de que tire x pinos en la segunda tirada si en la primera se tiraron 8 pinos
+    let prob0_seg_tirada_1ertirada8 = parseFloat(document.getElementById("prob0-8tirados-2tirada").value);
+    let prob1_seg_tirada_1ertirada8 = parseFloat(document.getElementById("prob1-8tirados-2tirada").value);
+    let prob2_seg_tirada_1ertirada8 = parseFloat(document.getElementById("prob2-8tirados-2tirada").value);
+
+    //probabilidades de que tire x pinos en la segunda tirada si en la primera se tiraron 9 pinos
+    let prob0_seg_tirada_1ertirada9 = parseFloat(document.getElementById("prob0-9tirados-2tirada").value);
+    let prob1_seg_tirada_1ertirada9 = parseFloat(document.getElementById("prob1-9tirados-2tirada").value);
 
     if (
-        typeof time_sim === "undefined" ||
-        typeof n === "undefined"
+        typeof time_sim === "undefined" || typeof n === "undefined" || typeof prob7_primer_tirada === "undefined" ||
+        typeof prob8_primer_tirada === "undefined" || typeof prob9_primer_tirada === "undefined" || typeof prob10_primer_tirada === "undefined" ||
+        typeof prob0_seg_tirada_1ertirada7 === "undefined" || typeof prob1_seg_tirada_1ertirada7 === "undefined" || typeof prob2_seg_tirada_1ertirada7 === "undefined" || typeof prob3_seg_tirada_1ertirada7 === "undefined" ||
+        typeof prob0_seg_tirada_1ertirada8 === "undefined" || typeof prob1_seg_tirada_1ertirada8 === "undefined" || typeof prob2_seg_tirada_1ertirada8 === "undefined" ||
+        typeof prob0_seg_tirada_1ertirada9 === "undefined" || typeof prob1_seg_tirada_1ertirada9 === "undefined"
     )
         return alert("Por favor, ingrese todos los datos.");
-    if (isNaN(time_sim) || isNaN(n))
+
+    if (isNaN(time_sim) || isNaN(n) || isNaN(prob7_primer_tirada) || isNaN(prob8_primer_tirada) || isNaN(prob9_primer_tirada) || isNaN(prob10_primer_tirada) ||
+         isNaN(prob0_seg_tirada_1ertirada7) || isNaN(prob1_seg_tirada_1ertirada7) || isNaN(prob2_seg_tirada_1ertirada7) || isNaN(prob3_seg_tirada_1ertirada7) || 
+         isNaN(prob0_seg_tirada_1ertirada8) || isNaN(prob1_seg_tirada_1ertirada8) || isNaN(prob2_seg_tirada_1ertirada8) || 
+         isNaN(prob0_seg_tirada_1ertirada9) || isNaN(prob1_seg_tirada_1ertirada9))
+        
         return alert("Por favor, ingrese números.");
 
     if (n < 1) return alert("El valor de 'n' debe ser mayor que 0");
 
+    //suma igual a uno de las probabilidades de la primer tirada
+    if ((prob7_primer_tirada + prob8_primer_tirada + prob9_primer_tirada + prob10_primer_tirada) != 1) return alert("La sumatoria de las probabilidades para la primer tirada debe ser igual a 1")
+
+    //suma igual a uno de las probabilidades de la segunda tirada si tira 7 en la primera
+    if ((prob0_seg_tirada_1ertirada7 + prob1_seg_tirada_1ertirada7 + prob2_seg_tirada_1ertirada7 + prob3_seg_tirada_1ertirada7) != 1) return alert("La sumatoria de las probabilidades para la segunda tirada debe ser igual a 1 (cuando en la primer tirada ser tiraron 7")
+
+    //suma igual a uno de las probabilidades de la segunda tirada si tira 8 en la primera
+    if ((prob0_seg_tirada_1ertirada8 + prob1_seg_tirada_1ertirada8 + prob2_seg_tirada_1ertirada8) != 1) return alert("La sumatoria de las probabilidades para la segunda tirada debe ser igual a 1 (cuando en la primer tirada ser tiraron 8")
+
+    //suma igual a uno de las probabilidades de la segunda tirada si tira 9 en la primera
+    if ((prob0_seg_tirada_1ertirada9 + prob1_seg_tirada_1ertirada9) != 1) return alert("La sumatoria de las probabilidades para la segunda tirada debe ser igual a 1 (cuando en la primer tirada ser tiraron 9")
+    
     try {
         vectoresEstado = generacionMontecarlo(time_sim, n);
         //rndUnif = [...vectoresEstado];
