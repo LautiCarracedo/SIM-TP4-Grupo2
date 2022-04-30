@@ -1,5 +1,6 @@
 const btnSimular = document.getElementById("btnSimular");
 const btnSimDelete = document.getElementById("btnSimDel");
+const lblCasoExito = document.getElementById("casoExito");
 
 let gridRandVarOptions = {};
 let pinos_tirados_1er_tirada = [7, 8, 9, 10];
@@ -23,7 +24,7 @@ const tomarProbabilidadesPrimerTirada = () => {
 
     probPrimerTirada.push(prob7_primer_tirada, prob8_primer_tirada, prob9_primer_tirada, prob10_primer_tirada);
     probAcumPrimerTirada.push(prob7_primer_tirada, prob7_primer_tirada + prob8_primer_tirada, prob7_primer_tirada + prob8_primer_tirada + prob9_primer_tirada, prob7_primer_tirada + prob8_primer_tirada + prob9_primer_tirada + prob10_primer_tirada)
-    
+
     return [pinosTiradosPrimerTirada, probAcumPrimerTirada];
 };
 
@@ -62,7 +63,7 @@ const tomarProbabilidadesSegundaTirada = () => {
     prob_acum_segunda_tirada_1ertirada7.push(prob0_seg_tirada_1ertirada7, prob0_seg_tirada_1ertirada7 + prob1_seg_tirada_1ertirada7, prob0_seg_tirada_1ertirada7 + prob1_seg_tirada_1ertirada7 + prob2_seg_tirada_1ertirada7, prob0_seg_tirada_1ertirada7 + prob1_seg_tirada_1ertirada7 + prob2_seg_tirada_1ertirada7 + prob3_seg_tirada_1ertirada7)
     prob_acum_segunda_tirada_1ertirada8.push(prob0_seg_tirada_1ertirada8, prob0_seg_tirada_1ertirada8 + prob1_seg_tirada_1ertirada8, prob0_seg_tirada_1ertirada8 + prob1_seg_tirada_1ertirada8 + prob2_seg_tirada_1ertirada8)
     prob_acum_segunda_tirada_1ertirada9.push(prob0_seg_tirada_1ertirada9, prob0_seg_tirada_1ertirada9 + prob1_seg_tirada_1ertirada9)
-    
+
     return [pinos_tirados_segtirada_1ertirada7, pinos_tirados_segtirada_1ertirada8, pinos_tirados_segtirada_1ertirada9, prob_acum_segunda_tirada_1ertirada7, prob_acum_segunda_tirada_1ertirada8, prob_acum_segunda_tirada_1ertirada9];
 };
 
@@ -207,17 +208,20 @@ const generacionMontecarlo = (time_sim, n) => {
     let nropartida = 0;
     let puntaje_total = 0;
     let puntaje_total_acum = 0;
+    let casos_exitosos = 0;
+    let es_caso_exitoso = false;
+    let lbl_caso_exitoso = "-";
+    let prob_casos_exitosos = 0;
+    let posicion_fin_partida = 0;
 
     const [lim_inferiores, lim_superiores] = armarIntervalos();
     const [puntaje_primertiro10, puntaje_dostiros10, puntaje_a_alcanzar] = tomarPuntajes()
-    
 
     let randObj = {};
     for (let i = 0; i < n; i++) {
 
         //primer random
         random_1er_tirada = truncateDecimals(Math.random(), 4);
-
 
         for (let j = 0; j < pinos_tirados_1er_tirada.length; j++){
             if (random_1er_tirada >= lim_inferiores[j] && random_1er_tirada < lim_superiores[j]){
@@ -233,7 +237,6 @@ const generacionMontecarlo = (time_sim, n) => {
                     pinos_int_tirada2 = pinos_tirados_tirada2.replace("-", 0);
                     total_pinos_tirados = pinos_tirados_tirada1 + Number(pinos_int_tirada2);
                     puntaje_total = puntaje_primertiro10;
-                    
 
                 }
                 else{
@@ -245,14 +248,14 @@ const generacionMontecarlo = (time_sim, n) => {
                             if (random_2da_tirada > lim_inferiores[k] && random_2da_tirada < lim_superiores[k]){
                                 pinos_tirados_tirada2 = pinos_tirados_segtirada_1ertirada9[k];
                                 total_pinos_tirados = pinos_tirados_tirada1 + pinos_tirados_tirada2;
-                                
+
                                 if (total_pinos_tirados === 10){
                                     puntaje_total = puntaje_dostiros10;
-                                    
+
                                 }
                                 else{
                                     puntaje_total = total_pinos_tirados;
-                                    
+
                                 }
                             }
                         }
@@ -270,11 +273,11 @@ const generacionMontecarlo = (time_sim, n) => {
 
                                     if (total_pinos_tirados === 10){
                                         puntaje_total = puntaje_dostiros10;
-                                       
+
                                     }
                                     else{
                                         puntaje_total = total_pinos_tirados;
-                                       
+
                                     }
                                 }
                             }
@@ -292,11 +295,11 @@ const generacionMontecarlo = (time_sim, n) => {
 
                                         if (total_pinos_tirados === 10){
                                             puntaje_total = puntaje_dostiros10;
-                                      
+
                                         }
                                         else{
                                             puntaje_total = total_pinos_tirados;
-                                       
+
                                         }
                                     }
                                 }
@@ -308,23 +311,27 @@ const generacionMontecarlo = (time_sim, n) => {
         }
 
         puntaje_total_acum = puntaje_total_acum + puntaje_total
-        
+
         //nropartida
-        if (((i + 1) % 10) === 0){ //cambiar 10 por el valor del input
+        if (((i + 1) % time_sim) === 0){
             nropartida = "Fin Partida"
-            //puntaje_total_acum = puntaje_total //esto esta mal, es en la iteracion i +1 donde se resetea
+            posicion_fin_partida = i + 1;
+            if (puntaje_total_acum >= puntaje_a_alcanzar){
+                es_caso_exitoso = true;
+                casos_exitosos += 1;
+            }
         }
-        //else if(((i + 1) % (10 + 1)) === 0) {
-        //    puntaje_total_acum = puntaje_total
-        //}
         else{
             nropartida = "-"
         }
 
-        //if (i - 1 === "Fin Partida"){
-        //    puntaje_total_acum = puntaje_total
-        //}
-        //console.log(random_1er_tirada, pinos_tirados_tirada1)
+        if (i === posicion_fin_partida){
+           puntaje_total_acum = puntaje_total
+        }
+
+        if (es_caso_exitoso) {
+            lbl_caso_exitoso = "Caso Exitoso";
+        }
 
         randObj = {
             Ronda: i + 1,
@@ -336,13 +343,18 @@ const generacionMontecarlo = (time_sim, n) => {
             TotalPinosTirados: total_pinos_tirados,
             PuntosTotal: puntaje_total,
             PuntosTotalAC: puntaje_total_acum,
-            
+            CasoExitoso: lbl_caso_exitoso,
         };
-    
+
         vectoresEstado.push(randObj);
-        
-            
+        lbl_caso_exitoso = "-";
+        es_caso_exitoso = false;
+
     }
+
+    prob_casos_exitosos = truncateDecimals(casos_exitosos / (n / time_sim), 4);
+    lblCasoExito.innerHTML = "Probabilidad de casos exitosos: " + prob_casos_exitosos * 100 + "%";
+
     return vectoresEstado;
 };
 
@@ -374,9 +386,9 @@ const simularMontecarlo = () => {
         console.log(error)
     }
 
-    let columnDefs = [{ field: "Ronda" }, { field: "Partida" }, { field: "Random1erTirada" }, { field: "PinosTirados1erTirada" }, 
+    let columnDefs = [{ field: "Ronda" }, { field: "Partida" }, { field: "Random1erTirada" }, { field: "PinosTirados1erTirada" },
                     { field: "Random2daTirada" }, { field: "PinosTirados2daTirada" }
-                    , { field: "TotalPinosTirados" }, { field: "PuntosTotal" }, { field: "PuntosTotalAC" }];
+                    , { field: "TotalPinosTirados" }, { field: "PuntosTotal" }, { field: "PuntosTotalAC" }, { field: "CasoExitoso" }];
 
     gridRandVarOptions = {
         columnDefs,
@@ -388,8 +400,6 @@ const simularMontecarlo = () => {
 };
 
 const borrarTablaMontecarlo = () => {
-    //btnExportToExcelRandVar.setAttribute("hidden", "hidden");
-    //btnExportToExcelFrec.setAttribute("hidden", "hidden");
     const eGridDiv = document.querySelector("#gridVariable");
 
     let child = eGridDiv.lastElementChild;

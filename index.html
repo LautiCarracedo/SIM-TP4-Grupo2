@@ -47,17 +47,17 @@
         aria-expanded="false" aria-controls="collapseExample">
         Simulacion de Montercarlo
     </a>
-   
+
 
     <div class="collapse" id="collapseMontecarlo">
         <div class="container-fluid">
             <hr>
-            <label style="display: block;" for="time-sim">Cantidad de partidas (X)</label>
+            <label style="display: block;" for="time-sim">Cantidad de rondas (X)</label>
             <input id="time-sim" placeholder="Ej: 100" style="margin: 0.5em;" type="number" />
-        
-            <label style="display: block;" for="n">Cantidad de rondas de una partida (N)</label>
+
+            <label style="display: block;" for="n">Cantidad de rondas a simular (N)</label>
             <input id="n" placeholder="Cantidad de números" style="margin: 0.5em;" type="number" />
-            
+
             <hr>
             <p><b> Distribucion de probabilidad de la primer tirada </b></p>
 
@@ -82,7 +82,7 @@
                   <td><strong>Si en la primera tanda se tiraron 8...</strong></td>
                   <td><strong>Si en la primera tanda se tiraron 9...</strong></td>
                 </tr>
-                
+
                 <tr>
                   <td>
                     <label style="display: block; margin-right: 60px;" for="prob0-7tirados-2tirada">Probabilidad de tirar 0 pinos en la segunda tirada:</label>
@@ -97,7 +97,7 @@
                     <input id="prob0-9tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" value="0.06" />
                   </td>
                 </tr>
-                
+
                 <tr>
                   <td>
                     <label style="display: block; margin-right: 60px;" for="prob1-7tirados-2tirada">Probabilidad de tirar 1 pinos en la segunda tirada:</label>
@@ -111,7 +111,7 @@
                     <input id="prob1-9tirados-2tirada" placeholder="%" style="margin: 0.5em;" type="number" value="0.94"/>
                   </td>
                 </tr>
-                
+
                 <tr>
                   <td>
                     <label style="display: block; margin-right: 60px;" for="prob2-7tirados-2tirada">Probabilidad de tirar 2 pinos en la segunda tirada:</label>
@@ -130,7 +130,7 @@
                   </tr>
 
             </table>
-            
+
             <hr>
             <p><b> Puntajes </b></p>
 
@@ -142,8 +142,8 @@
 
             <label style="display: block;" for="puntaje-a-alcanzar">Puntaje a obtener al cabo de N rondas</label>
             <input id="puntaje-a-alcanzar" placeholder="Puntaje" style="margin: 0.5em;" type="number" value="120"/>
-        
-        
+
+
             <hr>
             <p><b> Filas a mostrar </b></p>
 
@@ -166,9 +166,10 @@
             <div id="gridVariable" class="ag-theme-alpine my-2" style="height: 500px; width: 100%;"></div>
             <button hidden="hidden" id="btnExportToExcelRandVar" class="btn btn-info"
                 style="margin-bottom: 5px; font-weight: bold">Exportar a Excel</button>
+            <label id="casoExito" style="display: block;"></label>
         </div>
     </div>
-    
+
 
     <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
     <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
