@@ -3,7 +3,6 @@ const btnSimDelete = document.getElementById("btnSimDel");
 
 let gridRandVarOptions = {};
 let pinos_tirados_1er_tirada = [7, 8, 9, 10];
-
 let pinos_tirados_segtirada_1ertirada7 = [0, 1, 2, 3]
 let pinos_tirados_segtirada_1ertirada8 = [0, 1, 2]
 let pinos_tirados_segtirada_1ertirada9 = [0, 1]
@@ -79,19 +78,19 @@ const tomarPuntajes = () => {
 const armarIntervalos = () => {
     const [pinosTiradosPrimerTirada, probAcumPrimerTirada] = tomarProbabilidadesPrimerTirada()
 
-    let lim_inf = 0.00;
-    let lim_sup = 0.00;
+    let lim_inf = 0.0000;
+    let lim_sup = 0.0000;
     let lim_superiores = [];
     let lim_inferiores = [];
     for (let i = 0; i < pinosTiradosPrimerTirada.length; i++) {
         if (i == 0) {
             lim_inf = lim_inf;
-            lim_sup = truncateDecimals(Number(probAcumPrimerTirada[i] - 0.01), 2);
+            lim_sup = truncateDecimals(Number(probAcumPrimerTirada[i] - 0.0001), 4);
             lim_inferiores.push(lim_inf);
             lim_superiores.push(lim_sup);
         } else {
-            lim_inf = Number(lim_sup) + 0.01;
-            lim_sup = truncateDecimals(Number(probAcumPrimerTirada[i] - 0.01), 2);
+            lim_inf = Number(lim_sup) + 0.0001;
+            lim_sup = truncateDecimals(Number(probAcumPrimerTirada[i] - 0.0001), 4);
             lim_inferiores.push(lim_inf);
             lim_superiores.push(lim_sup);
         }
@@ -104,13 +103,13 @@ const armarIntervalos = () => {
 const armarIntervalosSegundaTirada_1erTirada10 = () => {
     const [pinos_tirados_segtirada_1ertirada7, pinos_tirados_segtirada_1ertirada8, pinos_tirados_segtirada_1ertirada9, prob_acum_segunda_tirada_1ertirada7, prob_acum_segunda_tirada_1ertirada8, prob_acum_segunda_tirada_1ertirada9] = tomarProbabilidadesSegundaTirada();
 
-    let lim_inf = 0.00;
-    let lim_sup = 0.00;
+    let lim_inf = 0.0000;
+    let lim_sup = 0.0000;
     let lim_superiores = [];
     let lim_inferiores = [];
 
-    lim_inf = 0.00
-    lim_sup = 0.99
+    lim_inf = 0.0000
+    lim_sup = 0.9999
     lim_inferiores.push(lim_inf)
     lim_superiores.push(lim_sup)
 
@@ -121,20 +120,20 @@ const armarIntervalosSegundaTirada_1erTirada10 = () => {
 const armarIntervalosSegundaTirada_1erTirada9 = () => {
     const [pinos_tirados_segtirada_1ertirada7, pinos_tirados_segtirada_1ertirada8, pinos_tirados_segtirada_1ertirada9, prob_acum_segunda_tirada_1ertirada7, prob_acum_segunda_tirada_1ertirada8, prob_acum_segunda_tirada_1ertirada9] = tomarProbabilidadesSegundaTirada();
 
-    let lim_inf = 0.00;
-    let lim_sup = 0.00;
+    let lim_inf = 0.0000;
+    let lim_sup = 0.0000;
     let lim_superiores = [];
     let lim_inferiores = [];
 
     for (let i = 0; i < pinos_tirados_segtirada_1ertirada9.length; i++) {
         if (i == 0) {
             lim_inf = lim_inf;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada9[i] - 0.01), 2);
+            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada9[i] - 0.0001), 4);
             lim_inferiores.push(lim_inf);
             lim_superiores.push(lim_sup);
         } else {
-            lim_inf = Number(lim_sup) + 0.01;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada9[i] - 0.01), 2);
+            lim_inf = Number(lim_sup) + 0.0001;
+            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada9[i] - 0.0001), 4);
             lim_inferiores.push(lim_inf);
             lim_superiores.push(lim_sup);
         }
@@ -155,12 +154,12 @@ const armarIntervalosSegundaTirada_1erTirada8 = () => {
     for (let i = 0; i < pinos_tirados_segtirada_1ertirada8.length; i++) {
         if (i == 0) {
             lim_inf = lim_inf;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada8[i] - 0.01), 2);
+            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada8[i] - 0.0001), 4);
             lim_inferiores.push(lim_inf);
             lim_superiores.push(lim_sup);
         } else {
-            lim_inf = Number(lim_sup) + 0.01;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada8[i] - 0.01), 2);
+            lim_inf = Number(lim_sup) + 0.0001;
+            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada8[i] - 0.0001), 4);
             lim_inferiores.push(lim_inf);
             lim_superiores.push(lim_sup);
         }
@@ -181,12 +180,12 @@ const armarIntervalosSegundaTirada_1erTirada7 = () => {
     for (let i = 0; i < pinos_tirados_segtirada_1ertirada7.length; i++) {
         if (i == 0) {
             lim_inf = lim_inf;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada7[i] - 0.01), 2);
+            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada7[i] - 0.0001), 4);
             lim_inferiores.push(lim_inf);
             lim_superiores.push(lim_sup);
         } else {
-            lim_inf = Number(lim_sup) + 0.01;
-            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada7[i] - 0.01), 2);
+            lim_inf = Number(lim_sup) + 0.0001;
+            lim_sup = truncateDecimals(Number(prob_acum_segunda_tirada_1ertirada7[i] - 0.0001), 4);
             lim_inferiores.push(lim_inf);
             lim_superiores.push(lim_sup);
         }
@@ -214,13 +213,13 @@ const generacionMontecarlo = (time_sim, n) => {
     
 
     let randObj = {};
-    for (let i = 1; i < n; i++) {
+    for (let i = 0; i < n; i++) {
 
         //primer random
         random_1er_tirada = truncateDecimals(Math.random(), 4);
 
 
-        for (let j = 1; j < pinos_tirados_1er_tirada.length; j++){
+        for (let j = 0; j < pinos_tirados_1er_tirada.length; j++){
             if (random_1er_tirada >= lim_inferiores[j] && random_1er_tirada < lim_superiores[j]){
 
                 //pinos tirados tirada 1segun random
@@ -242,7 +241,7 @@ const generacionMontecarlo = (time_sim, n) => {
                         const [lim_inferiores, lim_superiores] = armarIntervalosSegundaTirada_1erTirada9();
                         random_2da_tirada = truncateDecimals(Math.random(), 4);
 
-                        for (let k = 1; k < pinos_tirados_segtirada_1ertirada9.length; k++){
+                        for (let k = 0; k < pinos_tirados_segtirada_1ertirada9.length; k++){
                             if (random_2da_tirada > lim_inferiores[k] && random_2da_tirada < lim_superiores[k]){
                                 pinos_tirados_tirada2 = pinos_tirados_segtirada_1ertirada9[k];
                                 total_pinos_tirados = pinos_tirados_tirada1 + pinos_tirados_tirada2;
@@ -311,10 +310,13 @@ const generacionMontecarlo = (time_sim, n) => {
         puntaje_total_acum = puntaje_total_acum + puntaje_total
         
         //nropartida
-        if (i % 10 === 0){
+        if (((i + 1) % 10) === 0){ //cambiar 10 por el valor del input
             nropartida = "Fin Partida"
-            puntaje_total_acum = puntaje_total //esto esta mal, es en la iteracion i +1 donde se resetea
+            //puntaje_total_acum = puntaje_total //esto esta mal, es en la iteracion i +1 donde se resetea
         }
+        //else if(((i + 1) % (10 + 1)) === 0) {
+        //    puntaje_total_acum = puntaje_total
+        //}
         else{
             nropartida = "-"
         }
@@ -325,7 +327,7 @@ const generacionMontecarlo = (time_sim, n) => {
         //console.log(random_1er_tirada, pinos_tirados_tirada1)
 
         randObj = {
-            Ronda: i,
+            Ronda: i + 1,
             Partida: nropartida,
             Random1erTirada: random_1er_tirada,
             PinosTirados1erTirada: pinos_tirados_tirada1,
