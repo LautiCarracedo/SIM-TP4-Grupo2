@@ -21,7 +21,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">SIM - TP 4 - grupo 2</a>
+      <a class="navbar-brand" href="#">SIM - TP4 - Grupo 2 - Montecarlo para el caso BOWLING</a>
     </div>
   </nav>
   <button class="btn btn-primary mx-2 my-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
@@ -45,23 +45,23 @@
 
   <a class="mx-2 btn btn-primary" data-bs-toggle="collapse" href="#collapseMontecarlo" role="button"
     aria-expanded="false" aria-controls="collapseExample">
-    Simulacion de Montecarlo
+    Simulación Montecarlo
   </a>
 
   <div class="collapse" id="collapseMontecarlo">
     <div class="container-fluid">
       <hr>
-      <label style="display: block;" for="time-sim">Cantidad de rondas por partida (X)</label>
+      <label style="display: block;" for="time-sim">Cantidad de rondas por partida (X):</label>
       <input id="time-sim" style="margin: 0.5em;" type="number" value="20" />
 
-      <label style="display: block;" for="n">Cantidad de rondas (N)</label>
+      <label style="display: block;" for="n">Cantidad de rondas (N):</label>
       <input id="n" style="margin: 0.5em;" type="number" value="60" />
 
       <hr>
       <p><b> Distribucion de probabilidad de la primer tirada </b></p>
 
       <label style="display: block;" for="prob7-1tirada">Probabilidad de tirar 7 pinos:</label>
-      <input id="prob7-1tirada" style="margin: 0.5em;" type="number" value="0.50" />
+      <input id="prob7-1tirada" style="margin: 0.5em;" type="number" value="0.5" />
 
       <label style="display: block;" for="prob8-1tirada">Probabilidad de tirar 8 pinos:</label>
       <input id="prob8-1tirada" style="margin: 0.5em;" type="number" value="0.20" />
@@ -77,9 +77,9 @@
 
       <table>
         <tr>
-          <td><strong>Si en la primera tanda se tiraron 7...</strong></td>
-          <td><strong>Si en la primera tanda se tiraron 8...</strong></td>
-          <td><strong>Si en la primera tanda se tiraron 9...</strong></td>
+          <td><strong>Si en la primera tirada se tiraron 7...</strong></td>
+          <td><strong>Si en la primera tirada se tiraron 8...</strong></td>
+          <td><strong>Si en la primera tirada se tiraron 9...</strong></td>
         </tr>
 
         <tr>
@@ -143,24 +143,24 @@
       <hr>
       <p><b> Puntajes </b></p>
 
-      <label style="display: block;" for="puntaje-primertiro10">Puntaje por tirar 10 pinos en el primer tiro</label>
+      <label style="display: block;" for="puntaje-primertiro10">Puntaje por tirar 10 pinos en el primer tiro:</label>
       <input id="puntaje-primertiro10" style="margin: 0.5em;" type="number" value="20" />
 
-      <label style="display: block;" for="puntaje-dostiros10">Puntaje por tirar 10 pinos con dos tiros</label>
+      <label style="display: block;" for="puntaje-dostiros10">Puntaje por tirar 10 pinos con dos tiros:</label>
       <input id="puntaje-dostiros10" style="margin: 0.5em;" type="number" value="15" />
 
-      <label style="display: block;" for="puntaje-a-alcanzar">Puntaje a obtener al cabo de N rondas</label>
-      <input id="puntaje-a-alcanzar" style="margin: 0.5em;" type="number" value="120" />
+      <label style="display: block;" for="puntaje-a-alcanzar">Puntaje a obtener al cabo de N rondas:</label>
+      <input id="puntaje-a-alcanzar" style="margin: 0.5em;" type="number" value="280" />
 
 
       <hr>
       <p><b> Filas a mostrar </b></p>
 
       <label style="display: block;" for="sim-desde">Desde:</label>
-      <input id="sim-desde" style="margin: 0.5em;" type="number" value="17" />
+      <input id="sim-desde" style="margin: 0.5em;" type="number" value="1" />
 
       <label style="display: block;" for="sim-hasta">Hasta:</label>
-      <input id="sim-hasta" style="margin: 0.5em;" type="number" value="24" />
+      <input id="sim-hasta" style="margin: 0.5em;" type="number" value="60" />
 
       <hr>
 
@@ -175,6 +175,7 @@
       <div id="gridVariable" class="ag-theme-alpine my-2" style="height: 500px; width: 100%;"></div>
       <button hidden="hidden" id="btnExportToExcelRandVar" class="btn btn-info"
         style="margin-bottom: 5px; font-weight: bold">Exportar a Excel</button>
+      <label id="casoExito" style="display: block;"></label>
     </div>
   </div>
 
