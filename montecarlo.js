@@ -257,9 +257,7 @@ const determinarPinosTirada2 = (pinos_tirados_tirada1) => {
  * @param {number} n cantidad total de filas (rondas) que tendra la tabla
  * @returns un arreglo de objetos que poseen los datos para generar la tabla
  */
-const generacionMontecarlo = (x, n) => {
-    let vectoresEstado = [];
-
+const generacionMontecarlo = (x, n, desde, hasta) => {
     let rnd_tirada1 = 0;
     let rnd_tirada2 = 0;
     let pinos_tirados_tirada1 = 0;
@@ -269,7 +267,20 @@ const generacionMontecarlo = (x, n) => {
     let nropartida = 0;
     let puntaje_total = 0;
     let puntaje_total_acum = 0;
-    let randObj = {};
+    let filas = [];
+
+    /*
+     vectorEstado[0] = ronda
+     vectorEstado[1] = partida
+     vectorEstado[2] = rnd tirada 1
+     vectorEstado[3] = pinos tirados tirada 1
+     vectorEstado[4] = rnd tirada 2
+     vectorEstado[5] = pinos tirados tirada 2
+     vectorEstado[6] = total pinos tirados
+     vectorEstado[7] = puntaje total
+     vectorEstado[8] = puntaje total acumulado
+    */
+    const vectorEstado = new Array(9);
 
     // obtener los puntajes de los inputs
     const [puntaje_1tiro_10, puntaje_2tiros_10, puntaje_alcanzar] =
@@ -332,11 +343,11 @@ const generacionMontecarlo = (x, n) => {
         puntaje_total_acum += puntaje_total;
 
         //nropartida
-        if ((i + 1) % 10 === 0) {
+        if ((i + 1) % x === 0) {
             //cambiar 10 por el valor del input
             nropartida = "Fin Partida";
             //puntaje_total_acum = puntaje_total //esto esta mal, es en la iteracion i +1 donde se resetea
-        } else if ((i + 1) % (10 + 1) === 0) {
+        } else if ((i + 1) % (x + 1) === 0) {
             puntaje_total_acum = puntaje_total;
         } else {
             nropartida = "-";
@@ -347,21 +358,28 @@ const generacionMontecarlo = (x, n) => {
         //}
         //console.log(random_1er_tirada, pinos_tirados_tirada1)
 
-        randObj = {
-            Ronda: i + 1,
-            Partida: nropartida,
-            Random1erTirada: rnd_tirada1,
-            PinosTirados1erTirada: pinos_tirados_tirada1,
-            Random2daTirada: rnd_tirada2,
-            PinosTirados2daTirada: pinos_tirados_tirada2,
-            TotalPinosTirados: total_pinos,
-            PuntosTotal: puntaje_total,
-            PuntosTotalAC: puntaje_total_acum,
-        };
+        vectorEstado[0] = i + 1;
+        vectorEstado[1] = nropartida;
+        vectorEstado[2] = rnd_tirada1;
+        vectorEstado[3] = pinos_tirados_tirada1;
+        vectorEstado[4] = rnd_tirada2;
+        vectorEstado[5] = pinos_tirados_tirada2;
+        vectorEstado[6] = total_pinos;
+        vectorEstado[7] = puntaje_total;
+        vectorEstado[8] = puntaje_total_acum;
 
-        vectoresEstado.push(randObj);
+        // agregar filas desdeHasta
+        if (i + 1 >= desde && i + 1 <= hasta) {
+            filas.push([...vectorEstado]);
+        }
     }
-    return vectoresEstado;
+
+    // agregar ultima fila en caso que 'hasta' sea menor que la cantidad de filas
+    if (hasta < n) {
+        filas.push([...vectorEstado]);
+    }
+
+    return filas;
 };
 
 /**
@@ -369,44 +387,47 @@ const generacionMontecarlo = (x, n) => {
  * @returns {void}
  */
 const simularMontecarlo = () => {
-    let vectoresEstado = [];
+    let tableData = [];
 
     borrarTablaMontecarlo();
 
     const eGridDiv = document.querySelector("#gridVariable");
-    let time_sim = parseFloat(document.getElementById("time-sim").value);
+    let x = parseFloat(document.getElementById("time-sim").value);
     let n = parseInt(document.getElementById("n").value);
+    let desde = parseInt(document.getElementById("sim-desde").value);
+    let hasta = parseInt(document.getElementById("sim-hasta").value);
 
-    if (typeof time_sim === "undefined" || typeof n === "undefined")
+    if (typeof x === "undefined" || typeof n === "undefined")
         return alert("Por favor, ingrese todos los datos.");
 
-    if (isNaN(time_sim) || isNaN(n))
-        return alert("Por favor, ingrese números.");
+    if (isNaN(x) || isNaN(n)) return alert("Por favor, ingrese números.");
 
     if (n < 1) return alert("El valor de 'n' debe ser mayor que 0");
 
     try {
-        vectoresEstado = generacionMontecarlo(time_sim, n);
+        const filas = generacionMontecarlo(x, n, desde, hasta);
+
+        // transformar el arreglo de 'vectoresEstado' a objetos 'fila' para ser visualizados en la tabla
+        filas.map((x) => tableData.push(crearFila(x)));
     } catch (error) {
         alert("Oops! Ha ocurrido un error");
         console.log(error);
     }
 
     let columnDefs = [
-        { field: "Ronda" },
-        { field: "Partida" },
-        { field: "Random1erTirada", headerName: "RND (T1)" },
-        { field: "PinosTirados1erTirada", headerName: "Pinos (T1)" },
-        { field: "Random2daTirada", headerName: "RND (T2)" },
-        { field: "PinosTirados2daTirada", headerName: "Pinos (T1)" },
-        { field: "TotalPinosTirados", headerName: "Total pinos" },
-        { field: "PuntosTotal", headerName: "Puntos" },
-        { field: "PuntosTotalAC", headerName: "Total puntos" },
+        { field: "ronda", headerName: "Ronda" },
+        { field: "partida", headerName: "Partida" },
+        { field: "pinos_tirados_tirada1", headerName: "Pinos (T1)" },
+        { field: "rnd_tirada2", headerName: "RND (T2)" },
+        { field: "pinos_tirados_tirada2", headerName: "Pinos (T2)" },
+        { field: "total_pinos", headerName: "Total pinos" },
+        { field: "puntaje_total", headerName: "Puntos" },
+        { field: "puntaje_total_acum", headerName: "Total puntos" },
     ];
 
     let gridRandVarOptions = {
         columnDefs,
-        rowData: [...vectoresEstado],
+        rowData: tableData,
     };
 
     new agGrid.Grid(eGridDiv, gridRandVarOptions);
@@ -415,6 +436,25 @@ const simularMontecarlo = () => {
     gridRandVarOptions.api.sizeColumnsToFit();
 
     btnExportToExcelRandVar.removeAttribute("hidden");
+};
+
+/**
+ * Funcion de soporte que crea un objeto 'fila' a partir de un vectorEstado
+ * @param {Array} vectorEstado arreglo 'vectorEstado'
+ * @returns un objeto 'fila'
+ */
+const crearFila = (vectorEstado) => {
+    return {
+        ronda: vectorEstado[0],
+        partida: vectorEstado[1],
+        rnd_tirada1: vectorEstado[2],
+        pinos_tirados_tirada1: vectorEstado[3],
+        rnd_tirada2: vectorEstado[4],
+        pinos_tirados_tirada2: vectorEstado[5],
+        total_pinos: vectorEstado[6],
+        puntaje_total: vectorEstado[7],
+        puntaje_total_acum: vectorEstado[8],
+    };
 };
 
 /**
