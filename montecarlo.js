@@ -297,12 +297,14 @@ const armarIntervalos = (
         for (let i = 0; i < cant_pinos.length; i++) {
             if (i == 0) {
                 lim_inf = lim_inf;
-                lim_sup = truncateDecimals(Number(prob_acum[i] - 0.0001), 4);
+                lim_sup = truncateDecimals(Number(prob_acum[i]), 4);
+                // lim_sup = truncateDecimals(Number(prob_acum[i] - 0.0001), 4);
                 lim_inferiores.push(lim_inf);
                 lim_superiores.push(lim_sup);
             } else {
                 lim_inf = Number(lim_sup) + 0.0001;
-                lim_sup = truncateDecimals(Number(prob_acum[i] - 0.0001), 4);
+                // lim_sup = truncateDecimals(Number(prob_acum[i] - 0.0001), 4);
+                lim_sup = truncateDecimals(Number(prob_acum[i]), 4);
                 lim_inferiores.push(lim_inf);
                 lim_superiores.push(lim_sup);
             }
@@ -322,7 +324,7 @@ const armarIntervalos = (
  */
 const determinarIntervalo = (rnd, tirada, lim_inferiores, lim_superiores) => {
     for (let k = 0; k < tirada.length; k++) {
-        if (rnd > lim_inferiores[k] && rnd < lim_superiores[k]) {
+        if (rnd >= lim_inferiores[k] && rnd <= lim_superiores[k]) {
             return tirada[k];
         }
     }
@@ -502,7 +504,7 @@ const generacionMontecarlo = (
 
     prob_casos_exitosos = truncateDecimals(casos_exitosos / (n / x), 4);
     lblCasoExito.innerHTML =
-        "Probabilidad de casos exitosos: " + prob_casos_exitosos * 100 + "%";
+        "Probabilidad de casos exitosos: " + truncateDecimals(prob_casos_exitosos, 2) * 100 + "%";
 
     return filas;
 };
