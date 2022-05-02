@@ -557,6 +557,7 @@ const simularMontecarlo = () => {
     let columnDefs = [
         { field: "ronda", headerName: "Ronda" },
         { field: "partida", headerName: "Partidas" },
+        { field: "rnd_tirada1", headerName: "RND (T1)" },
         { field: "pinos_tirados_tirada1", headerName: "Pinos (T1)" },
         { field: "rnd_tirada2", headerName: "RND (T2)" },
         { field: "pinos_tirados_tirada2", headerName: "Pinos (T2)" },
