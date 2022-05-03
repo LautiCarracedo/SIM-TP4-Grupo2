@@ -26,6 +26,16 @@ const tomarInputs = () => {
         return alert("X, N, DESDE, HASTA: los valores deben ser mayores a 0.");
     if (isNaN(x) || isNaN(n) || isNaN(desde) || isNaN(hasta))
         return alert("X/N/DESDE/HASTA: por favor, ingrese todos los datos.");
+    if (Number.isInteger(x) && Number.isInteger(n)){
+        //no hace nada
+    }
+    else{
+        return alert("X y N deben ser enteros");
+    }
+
+    if (((n % x) != 0) || (n < x)){
+        return alert("N debe ser multiplo de X. N debe ser mayor a X")
+    }
 
     // probabilidades tirada 1
     const prob7_tirada1 = parseFloat(
